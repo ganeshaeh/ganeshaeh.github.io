@@ -65,7 +65,7 @@ function select(){
     wrapper.innerHTML = insideHTML
 
     for (const element of document.getElementsByClassName('close-icon')){
-        element.addEventListener("click", event => {            
+        element.addEventListener("click", event => { 
             let index = selected.indexOf(event.currentTarget.getAttribute('data-id'))
             suggestions.push(event.currentTarget.getAttribute('data-id'))
             selected.splice(index, 1)
@@ -139,7 +139,7 @@ function formSubmit(event){
         fetch('/success-page.html').then(res => res.text()).then(data => {
             document.body.innerHTML = data
 
-            fetch(`https://api.spotify.com/v1/playlists/${playlist}/tracks?limit=10`,{
+            fetch(`https://api.spotify.com/v1/playlists/${playlist}/tracks`,{
                 headers: {
                     'Authorization': 'Bearer ' + TOKEN
                 }
@@ -148,9 +148,9 @@ function formSubmit(event){
             .then(data => {
                 const songs = document.getElementById("songs")
                 document.getElementById("heading").innerHTML = selectedGenre.value
-                let tracks = data.items;
+                let tracks = data.items.sort(() => 0.5 - Math.random()).slice(0, 10);
 
-                let names = data.items.map(element => element.track.name)
+                let names = tracks.map(element => element.track.name)
                 
                 selected.forEach((value, index) => {
 
@@ -161,7 +161,7 @@ function formSubmit(event){
 
                 document.getElementById('save-spotify').addEventListener('click', () => {
                     localStorage.setItem('tracks', JSON.stringify(tracks))
-                    var redirect_uri = "https://ganeshaeh.github.io/"
+                    var redirect_uri = "http://127.0.0.1:5500/index.html"
                     var scope = "playlist-modify-public";
                     window.location.href = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${redirect_uri}&scope=${scope}`
                 })
