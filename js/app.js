@@ -66,8 +66,8 @@ function select(){
 
     for (const element of document.getElementsByClassName('close-icon')){
         element.addEventListener("click", event => {            
-            let index = selected.indexOf(event.explicitOriginalTarget.getAttribute('data-id'))
-            suggestions.push(event.explicitOriginalTarget.getAttribute('data-id'))
+            let index = selected.indexOf(event.currentTarget.getAttribute('data-id'))
+            suggestions.push(event.currentTarget.getAttribute('data-id'))
             selected.splice(index, 1)
             select()
         })
