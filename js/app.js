@@ -243,6 +243,6 @@ window.onload = event => {
         }
 
     } catch(err){
-       alert("Cannot connect to your spotify account") 
+       
     }
 }
