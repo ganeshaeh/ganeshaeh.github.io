@@ -161,7 +161,7 @@ function formSubmit(event){
 
                 document.getElementById('save-spotify').addEventListener('click', () => {
                     localStorage.setItem('tracks', JSON.stringify(tracks))
-                    var redirect_uri = "https://ganeshaeh.github.io/"
+                    var redirect_uri = "http://127.0.0.1:5500/index.html"
                     var scope = "playlist-modify-public";
                     window.location.href = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${redirect_uri}&scope=${scope}`
                 })
@@ -210,7 +210,7 @@ window.onload = event => {
                         'Content-Type' : 'application/json'
                     },
                     body: JSON.stringify({
-                        name: data.display_name + parseInt(Math.random() * 100)
+                        name: selectedGenre.value + parseInt(Math.random() * 100)
                     })
                     
                 }).then(res => res.json()).then(data => {
@@ -243,6 +243,6 @@ window.onload = event => {
         }
 
     } catch(err){
-        
+       alert("Cannot connect to your spotify account") 
     }
 }
