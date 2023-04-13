@@ -161,7 +161,7 @@ function formSubmit(event){
 
                 document.getElementById('save-spotify').addEventListener('click', () => {
                     localStorage.setItem('tracks', JSON.stringify(tracks))
-                    var redirect_uri = "http://127.0.0.1:5500/index.html"
+                    var redirect_uri = "https://ganeshaeh.github.io/"
                     var scope = "playlist-modify-public";
                     window.location.href = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${redirect_uri}&scope=${scope}`
                 })
