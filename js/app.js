@@ -79,6 +79,7 @@ function suggest(index){
     selected.push(suggestions[index])
     selectedTrack.push(allTracks[index])
     suggestions.splice(index, 1)
+    inputField.value = ''
     select()
 }
 
@@ -90,10 +91,12 @@ inputField.addEventListener("input", (event) => {
         return;
     }
 
+    document.getElementById('suggest').innerHTML = ""
+
     suggestions.forEach((item, index) => {
         // console.log(item)
         if (item.toLowerCase().includes(event.target.value.toLowerCase())){
-            document.getElementById('suggest').innerHTML = `
+            document.getElementById('suggest').innerHTML += `
             <div class="suggestions input-field w-input" style="color: white; margin-top: -5px; height: 60%;text-align: center;cursor: pointer"
             onclick="suggest(${index})">
             ${item}
@@ -159,58 +162,31 @@ function formSubmit(event){
                     }
                 })
 
+                
+
                 document.getElementById('save-spotify').addEventListener('click', () => {
-                    localStorage.setItem('tracks', JSON.stringify(tracks))
-                    var redirect_uri = "https://ganeshaeh.github.io/"
-                    var scope = "playlist-modify-public";
-                    window.location.href = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${redirect_uri}&scope=${scope}`
-                })
-      
-                for (const track of tracks){
-                    songs.innerHTML += `
-                    <div class="song-item">
-                        <div class="paragraph">${track.track.name}</div>
-                        <div class="paragraph">${selectedGenre.value}</div><img src="images/drag-icon.svg" loading="lazy" alt="">
-                    </div>
-                    `
-                }
-             })
-        })
 
 
-    }else {
-        document.getElementById('message').style = "display:block;"
-    }
-}
-
-window.onload = event => {
-
-    try {
-        let token = window.location.toString().split('#')[1].split('&')[0].split("=")[1];
-
-        if (token && localStorage.getItem('tracks')){
-            let tracks = JSON.parse(localStorage.getItem('tracks'))
-
-            fetch("https://api.spotify.com/v1/me", {
+                    fetch("https://api.spotify.com/v1/me", {
                 headers: {
-                    "Authorization": "Bearer " + token
+                    "Authorization": "Bearer " + TOKEN
                 }
             }).then(res => res.json())
-            .then(data => {
-                let userId = data.id;
-                console.log(data)
-                console.log(data.display_name + parseInt(Math.random() * 100))
+            .then(data => console.log(data))
+                    let userId = 'kqfrnhz71e9sxkwniypnfyv17';
+               
 
 
 
                 fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
                     method: "POST", 
                     headers: {
-                        'Authorization': 'Bearer ' + token,
+                        'Authorization': 'Bearer ' + TOKEN,
                         'Content-Type' : 'application/json'
                     },
                     body: JSON.stringify({
-                        name: selectedGenre.value + parseInt(Math.random() * 100)
+                        name: selectedGenre.value + parseInt(Math.random() * 100),
+                        public: true
                     })
                     
                 }).then(res => res.json()).then(data => {
@@ -239,10 +215,22 @@ window.onload = event => {
                         window.location.href = name
                     })
                 })
-            })
-        }
+        
+                })
+      
+                for (const track of tracks){
+                    songs.innerHTML += `
+                    <div class="song-item">
+                        <div class="paragraph">${track.track.name}</div>
+                        <div class="paragraph">${selectedGenre.value}</div>
+                    </div>
+                    `
+                }
+             })
+        })
 
-    } catch(err){
-       
+
+    }else {
+        document.getElementById('message').style = "display:block;"
     }
 }
