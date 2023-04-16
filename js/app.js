@@ -166,27 +166,51 @@ function formSubmit(event){
 
                 document.getElementById('save-spotify').addEventListener('click', () => {
 
+                     localStorage.setItem('tracks', JSON.stringify(tracks))
+                    var redirect_uri = "https://acceptteutonicmixtape.com/"
+                    var scope = "playlist-modify-public,user-read-private,user-read-email";
+                    window.location.href = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${redirect_uri}&scope=${scope}`
 
-                    fetch("https://api.spotify.com/v1/me", {
-                headers: {
-                    "Authorization": "Bearer " + TOKEN
+                
+                    
+                })
+      
+                for (const track of tracks){
+                    songs.innerHTML += `
+                    <div class="song-item">
+                        <div class="paragraph">${track.track.name}</div>
+                        <div class="paragraph">${selectedGenre.value}</div>
+                    </div>
+                    `
                 }
-            }).then(res => res.json())
-            .then(data => console.log(data))
-                    let userId = 'kqfrnhz71e9sxkwniypnfyv17';
-               
+             })
+        })
 
 
+    }else {
+        document.getElementById('message').style = "display:block;"
+    }
+}
 
-                fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+
+window.onload = event => {
+
+    try {
+        let token = window.location.toString().split('#')[1].split('&')[0].split("=")[1];
+
+        if (token && localStorage.getItem('tracks')){
+            let tracks = JSON.parse(localStorage.getItem('tracks'))
+
+            
+
+                fetch(`https://api.spotify.com/v1/me/playlists`, {
                     method: "POST", 
                     headers: {
-                        'Authorization': 'Bearer ' + TOKEN,
+                        'Authorization': 'Bearer ' + token,
                         'Content-Type' : 'application/json'
                     },
                     body: JSON.stringify({
-                        name: selectedGenre.value + parseInt(Math.random() * 100),
-                        public: true
+                        name: "Accept " + parseInt(Math.random() * 1000)
                     })
                     
                 }).then(res => res.json()).then(data => {
@@ -215,22 +239,10 @@ function formSubmit(event){
                         window.location.href = name
                     })
                 })
-        
-                })
-      
-                for (const track of tracks){
-                    songs.innerHTML += `
-                    <div class="song-item">
-                        <div class="paragraph">${track.track.name}</div>
-                        <div class="paragraph">${selectedGenre.value}</div>
-                    </div>
-                    `
-                }
-             })
-        })
+            
+        }
 
-
-    }else {
-        document.getElementById('message').style = "display:block;"
+    } catch(err){
+       
     }
 }
