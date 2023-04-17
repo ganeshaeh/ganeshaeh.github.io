@@ -167,7 +167,7 @@ function formSubmit(event){
                 document.getElementById('save-spotify').addEventListener('click', () => {
 
                      localStorage.setItem('tracks', JSON.stringify(tracks))
-                    var redirect_uri = "https://acceptteutonicmixtape.com/"
+                    var redirect_uri = "https://acceptteutonicmixtape.com"
                     var scope = "playlist-modify-public,user-read-private,user-read-email";
                     window.location.href = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${redirect_uri}&scope=${scope}`
 
