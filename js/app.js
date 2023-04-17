@@ -57,7 +57,7 @@ function select(){
 
         insideHTML += `
         <div class="song-choose-wrap">
-            <div class="songs-name">${select.toUpperCase()}</div>
+            <div class="songs-name">${select}</div>
             <div class="close-icon" data-id="${select}" ><img loading="lazy" src="images/close-icon.svg" alt=""></div>
         </div>`
     }
@@ -179,7 +179,7 @@ function formSubmit(event){
                     songs.innerHTML += `
                     <div class="song-item">
                         <div class="paragraph">${track.track.name}</div>
-                        <div class="paragraph">${selectedGenre.value}</div>
+                        <div class="paragraph">${selectedGenre.value.toUpperCase()}</div>
                     </div>
                     `
                 }
