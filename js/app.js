@@ -57,7 +57,7 @@ function select(){
 
         insideHTML += `
         <div class="song-choose-wrap">
-            <div class="songs-name">${select}</div>
+            <div class="songs-name">${select.toUpperCase()}</div>
             <div class="close-icon" data-id="${select}" ><img loading="lazy" src="images/close-icon.svg" alt=""></div>
         </div>`
     }
